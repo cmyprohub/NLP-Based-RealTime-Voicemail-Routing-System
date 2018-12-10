@@ -90,10 +90,10 @@ datetime
 
 ## 8. Input and Output Specifications
 ### Input
-Voicemail transcript in UTF-8 format Ô.txtÕ file.
+Voicemail transcript in UTF-8 format .txt file.
 File is expected to be named with the date and timestamp when the voicemail was received.
 
-Example a voicemail received on 25th Dec 2018 1.30 pm will be  named Ô12-25-18 1330.txtÕ
+Example a voicemail received on 25th Dec 2018 1.30 pm will be  named '12-25-18 1330.txt'
 ### Output
 An email alert in the following format sent to the identified department:
 
@@ -121,7 +121,7 @@ https://portal.aws.amazon.com/billing/signup?id=acq886649&redirect_url=https%3A%
 
 IAM user guide - https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_create_for-user.html
 
-Login to the userÕs AWS account  in the AWS Console, navigate to S3 service and create all the below S3 buckets  shown below with PUBLIC access . Use ÔAWS S3 folder structureÕ folder in the project repository as reference. Copy over the necessary txt and csv files as well from within the vmdeptemailidbucket and vmtrainbucket respectively. 
+Login to the user's AWS account  in the AWS Console, navigate to S3 service and create all the below S3 buckets  shown below with PUBLIC access . Use 'AWS S3 folder structure' folder in the project repository as reference. Copy over the necessary txt and csv files as well from within the vmdeptemailidbucket and vmtrainbucket respectively. 
 
 The below details are configurable:
 Department specific csv files can be modified to include more terms related to each department.
@@ -148,7 +148,7 @@ Picture2
 Picture3
 
 
-2. Create a new Lambda  function called ÔS3LambdaÕ in Python 2.7 and copy paste the S3lambda.py source code (from the src folder within project repository) into this Lambda function as shown below.
+2. Create a new Lambda  function called 'S3Lambda' in Python 2.7 and copy paste the S3Lambda.py source code (from the src folder within project repository) into this Lambda function as shown below.
 
 Lambda should be created with the below settings and all necessary IAM access including full access to AWS comprehend.
 
@@ -185,7 +185,7 @@ Picture9
 Picture10
 
 
-3. Add an event trigger to the ÔvmreceivebucketÕ. This is the input bucket where the voicemail text files will come in. The moment the file hits this bucket, the trigger executes and launches the ÔS3LambdaÕ, which executes the Python script for the application. How this is achieved in our application is illustrated via screenshots below.
+3. Add an event trigger to the 'vmreceivebucket'. This is the input bucket where the voicemail text files will come in. The moment the file hits this bucket, the trigger executes and launches the 'S3Lambda', which executes the Python script for the application. How this is achieved in our application is illustrated via screenshots below.
 
 More details on how to set up a Lambda based on S3 event is present in the AWS documentation here - https://docs.aws.amazon.com/lambda/latest/dg/invoking-lambda-functions.html
 
@@ -210,7 +210,7 @@ Obtain a sample voice mail clipping from US HealthInsurance domain pertaining to
 ### Step2:
 Create a voicemail transcript of the chosen file. File to be named with the date and timestamp when the voicemail was received.
 
-Example a voicemail received on 25th Dec 2018 1.30 pm is expected to be  named Ô12-25-18 1330.txtÕ
+Example a voicemail received on 25th Dec 2018 1.30 pm is expected to be  named '12-25-18 1330.txt'
 
 Sample text transcript file is shown below.
 
