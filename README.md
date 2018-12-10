@@ -82,11 +82,12 @@ Amazon Web Services (AWS) Cloud
 ### Language
 Python 2.7
 ### Python Packages
-Json
-Urllib
-boto3
-botocore
+Json,
+Urllib,
+boto3,
+botocore,
 datetime
+
 
 ## 8. Input and Output Specifications
 ### Input
