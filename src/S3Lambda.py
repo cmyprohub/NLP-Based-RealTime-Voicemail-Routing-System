@@ -33,6 +33,7 @@ def lambda_handler(event, context):
     key = urllib.unquote_plus(event['Records'][0]['s3']['object']['key'].encode('utf8'))
     try:
         #Reading the content of incoming file
+        print("Extracting voicemail text from input voicemail transcript file")
         incoming_vm_file_name = s3.get_object(Bucket=source_bucket, Key=key)
         incoming_vm_timestamp = key.split('.')[0]
         incoming_vm_text = incoming_vm_file_name['Body'].read()
@@ -40,13 +41,15 @@ def lambda_handler(event, context):
 
         #SENTIMENT DETECTION
         
-        #Applying AWS Comprehend NLP sentiment detection capabilities on the incoming VM text        
+        #Applying AWS Comprehend NLP sentiment detection capabilities on the incoming VM text
+        print("Performing AWS Comprehend NLP sentiment detection on voicemail text")
         sentiment_response = comprehend.detect_sentiment(Text=incoming_vm_text, LanguageCode='en')                
         vm_sentiment = sentiment_response['Sentiment']
 
         #DOMINANT LANGUAGE DETECTION
         
         #Applying AWS Comprehend NLP language detection capabilities on the incoming VM text
+        print("Performing AWS Comprehend NLP dominant language detection on voicemail text to identify English, Spanish or Other")
         lang_response = comprehend.detect_dominant_language(Text=incoming_vm_text) 
         vm_languages = lang_response['Languages']
         
@@ -70,7 +73,7 @@ def lambda_handler(event, context):
         #Applying AWS Comprehend NLP entity detection capabilities on the incoming VM text   
         #Amazon Comprehend detects multiple entity types - person, location, date etc
         #In this code, we are identifying only person entity from the voicemail
-        
+        print("Performing AWS Comprehend NLP entity detection on voicemail text")
         detected_entities_response = comprehend.detect_entities(Text=incoming_vm_text, LanguageCode='en')
         detected_entities = detected_entities_response["Entities"]
         
@@ -141,7 +144,7 @@ def lambda_handler(event, context):
         #2. categorizing them with respect to department terms
         #3. incrementing associated counters'''
         key_phrases = phrases_response['KeyPhrases']
-        
+        print("Identifying Department to be notified ")
         for detected_phrase in key_phrases:
             
             phrase_text = detected_phrase["Text"]
@@ -187,31 +190,36 @@ def lambda_handler(event, context):
 
             
         if max_dept_wrd_counts =='mem_count':
-            print ('Notifying Benefits department')
+            print ('Department to be notified: Benefits department')
+            print ('Sending email notification to Benefits department')
             SENDER = defined_sender_email_id
             RECIPIENT = get_dept_entity_list("BenefitDeptEmailDL.txt")
 
 
         if max_dept_wrd_counts =='prov_count':
-            print ('Notifying provider department')
+            print ('Department to be notified: Provider department')
+            print ('Sending email notification to Provider department')
             SENDER = defined_sender_email_id
             RECIPIENT = get_dept_entity_list("ProvDeptEmailDL.txt")
 
 
         if max_dept_wrd_counts =='claim_count':
-            print ('Notifying Claims department')
+            print ('Department to be notified: Claims department')
+            print ('Sending email notification to Claims department')
             SENDER = defined_sender_email_id
             RECIPIENT = get_dept_entity_list("ClaimsDeptEmailDL.txt")
 
 
         if max_dept_wrd_counts =='hix_count':
-            print ('Notifying HIX department')
+            print ('Department to be notified: HIX department')
+            print ('Sending email notification to HIX department')
             SENDER = defined_sender_email_id
             RECIPIENT = get_dept_entity_list("HIXDeptEmailDL.txt")
 
             
         if max_dept_wrd_counts =='phar_count':
-            print ('Notifying Pharma department')
+            print ('Department to be notified: Pharmacy department')
+            print ('Sending email notification to Pharmacy department')
             SENDER = defined_sender_email_id
             RECIPIENT = get_dept_entity_list("PharmacyDeptEmailDL.txt")
 
@@ -272,6 +280,8 @@ def lambda_handler(event, context):
         #ARCHIVING
         
         #Copying the incoming voicemail file to archive location post processing
+       
+        print ('Archiving input voicemail file')
         target_bucket = 'vmarchivebucket' # bucket where processed voicemail files will be archived
         copy_source = {'Bucket':source_bucket, 'Key':key}
         waiter = s3.get_waiter('object_exists')
@@ -280,7 +290,7 @@ def lambda_handler(event, context):
         
         #Deleting the incoming file post processing and archival
         s3.delete_object(Bucket=source_bucket, Key=key)
-                
+        print('Completed NLP and Email Notification for {} from bucket {}. '.format(key, source_bucket))    
         return "OK"
         
     except Exception as e:
