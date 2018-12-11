@@ -274,6 +274,9 @@ Proposed system will have the following benefits from a Health Insurance enterpr
 
 5. Right now this application covers the following areas within Health Insurance  - claims, benefits, pharmacy, health exchanges, provider. This can be extended to other areas or departments like appeals department, utilization management department, medicare department etc.
 
+## 14. Appendix
+Refer 'Implementation - Code Step by Step.pdf' in this repository to know more about how wach NLP operation is implemented in the code.
+
 
 
 
