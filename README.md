@@ -3,7 +3,7 @@
 # NLP-Based-RealTime-Voicemail-Routing-System
 
 
-![](Images/Title.png)
+
 
 ## 1. Objective
 ### 1.1. Business UseCase
